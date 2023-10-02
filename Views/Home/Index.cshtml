@@ -1,0 +1,138 @@
+﻿
+@*@{
+	ViewData["Title"] = "Home Page";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	Pager pager = new Pager();
+	int pageNo = 0;
+	if (ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pageNo = pager.CurrentPage;
+	}
+}*@
+
+<!-- Header-->
+<section class="section-index-banner">
+	<div class="container">
+		<swiper-container class="mySwiper" navigation="true">
+			<swiper-slide><img src="https://www.icebergsupplements.com/wp-content/uploads/2021/05/bpi-slider.jpg" class="d-block w-100" alt="dsad"></swiper-slide>
+			<swiper-slide><img src="https://m.media-amazon.com/images/S/aplus-media/mg/c96a832f-a9cb-4fb9-ab36-6126ed69f8d5._SR970,300_.jpg" class="d-block w-100" alt="dasda"></swiper-slide>
+			<swiper-slide><img src="https://aaasupplements.com.au/wp-content/uploads/2016/05/Rule1-Isolate-Banner.png" class="d-block w-100" alt="sad"></swiper-slide>
+			<swiper-slide><img src="https://m.media-amazon.com/images/S/aplus-media-library-service-media/6101f15a-3439-48e0-8565-42efd59b79e2.__CR0,0,970,300_PT0_SX970_V1___.jpg" class="d-block w-100" alt="sasd"></swiper-slide>
+			<swiper-slide><img src="https://shop.oldschoollabs.com/cdn/shop/files/Classic-Creatine-pdp-banner-m_1024x.jpg?v=1686653383" class="d-block w-100" alt="sasad"></swiper-slide>
+		</swiper-container>
+	</div>
+</section>
+<!-- Section-->
+<section class="section-index-collection py-5">
+	<div class="container px-4 px-lg-5 mt-5">
+		<ul>
+			<li class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-right">
+				@if (Model != null)
+				{
+					int i = 0;
+					foreach (var item in Model)
+					{
+						i++;
+						<div class="col mb-5">
+							<div class="card h-100">
+								<!-- Sale badge-->
+								<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+								<!-- Product image-->
+								<img class="card-img-top" src="@item.Icon" alt="..." />
+								<!-- Product details-->
+								<div class="card-body p-4">
+									<div class="text-center">
+										<!-- Product name-->
+										<h5 class="fw-bolder">@item.ProductName</h5>
+										<!-- Product price-->
+								@string.Format("{0:N0}",@item.Price) VND
+									</div>
+								</div>
+								<!-- Product actions-->
+								<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+									<div class="text-center">
+										<a asp-route="addcart"
+										   asp-route-productid="@item.ProductId"
+										   class="btn btn-secondary btn-sm float-right">Add to cart</a>
+									</div>
+									<br>
+									<div class="text-center"><a class="btn btn-outline-dark mt-auto" href=" @Url.Action("GetProductDetail", "Home", new { pid = item.ProductId })">Detail</a></div>
+								</div>
+							</div>
+						</div>
+					}
+				}
+			</li>
+		</ul>
+
+		<!--Page navigation-->
+		@*<div class="container">
+		<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+		@{
+		int position;
+		int pageCurrent = ViewBag.pageCurrent;
+		string txtSearch = ViewBag.txtSearch;
+		float numSize = ViewBag.numSize;
+		if (pageCurrent > 1)
+		{
+		<li class="page-item">
+		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = pageCurrent-1 })" tabindex="-1" aria-label="Previous">
+		<span aria-hidden="true">&laquo;</span>
+		</a>
+		</li>
+		}
+
+		for (position = 1; position <= numSize; position++)
+		{
+
+		if (position == pageCurrent)
+		{
+		<li class="page-item active">
+		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = position })">
+		@position
+		</a>
+		</li>
+		}
+		else
+		{
+		<li class="page-item">
+		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = position })">
+		@position
+		</a>
+		</li>
+		}
+
+		}
+
+		if (pageCurrent > 0 && pageCurrent < numSize)
+		{
+		<li class="page-item">
+		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = pageCurrent+1 })" tabindex="-1" aria-label="Next">
+		<span aria-hidden="true">&raquo;</span>
+		</a>
+		</li>
+		}
+		}
+
+
+		</ul>
+		</nav>
+		</div>*@
+</section>
+</div>
+
+@*<div class="container">
+	@if (pager.TotalPages > 0)
+	{
+		<ul class="pagination justify-content-end">
+			@for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+			{
+				<li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+					<a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pg="@pge">@pge</a>
+				</li>
+			}
+		</ul>
+	}
+</div>*@
