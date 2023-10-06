@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebAPIModule4.Models;
+namespace WebAPIModule4_Client.Models.Product;
 
-//[Table("Product")]
+[Table("Product")]
 public class Product
 {
     [Key]

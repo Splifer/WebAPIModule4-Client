@@ -1,0 +1,66 @@
+﻿@using WebAPIModule4_Client.Models.Product
+@model WebAPIModule4_Client.Models.Product.Product
+@{
+    ViewData["Title"] = "UpdateProduct";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="col-6 px-5 pt-5 border rounded-3 shadow-lg">
+        <h2 class="text-center fw-bold pb-4">Product Modify</h2>
+        <hr />
+        <form action="~/Product/EditProduct" method="post">
+            <div class="mb-4">
+                <label for="productid" class="form-label fw-bolder">Product ID</label>
+                <input type="text" class="form-control" id="productid" name="productid" value="@Model.ProductId" aria-describedby="text">
+            </div>
+            <div class="mb-4">
+                <label for="productname" class="form-label fw-bolder">Product Name</label>
+                <input type="text" class="form-control" id="productname" name="productname" value="@Model.ProductName" aria-describedby="text">
+            </div>
+            @*<div class="mb-4">
+                <label for="brandname" class="form-label fw-bolder">Brand Name</label>
+                <input type="text" class="form-control" id="brandname" name="brandname" value="@Model.BrandName" aria-describedby="text">
+            </div>*@
+            <div class="mb-4">
+                <label for="price" class="form-label fw-bolder">Price</label>
+                <input type="text" class="form-control" id="price" name="price" min="0" value="@Model.Price" aria-describedby="text">
+            </div>
+            @*<div class="mb-4">
+                <label for="stock" class="form-label fw-bolder">Stock</label>
+                <input type="text" class="form-control" id="stock" name="stock" min="0" value="@Model.Stock" aria-describedby="text">
+            </div>*@
+
+            @if (string.IsNullOrEmpty(@Model.Icon) == false)
+            {
+                <div class="mb-4">
+                    <label for="icon" class="form-label fw-bolder">Icon</label>
+                    <img src="@Model.Icon" width="140" height="140" />
+                    <input type="file" class="form-control" id="icon" name="icon" value="@Model.Icon" aria-describedby="text">
+                </div>
+            }
+
+            @*<div class="mb-4">
+            <label for="icon" class="form-label fw-bolder">Icon</label>
+            <img src="@Model.Icon" width="140" height="140" />
+            <input type="file" class="form-control" id="icon" name="icon" value="@Model.Icon" aria-describedby="text">
+            </div>*@
+
+            <div class="mb-4">
+                <label for="description" class="form-label fw-bolder">Description</label>
+                <input type="text" class="form-control" id="description" name="description" value="@Model.Description" aria-describedby="text">
+            </div>
+            <div class="form-check">
+                <input asp-for="IsActive" class="form-check-input" type="checkbox" id="isactive">
+                <label asp-for="IsActive" class="form-check-label">
+                    Active
+                </label>
+            </div>
+            <hr />
+            <div class="d-flex align-items-center justify-content-center my-5 gap-5">
+                <button type="submit" id="product" class="btn btn-primary px-4 py-2">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+

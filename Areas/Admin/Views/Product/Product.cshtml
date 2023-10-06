@@ -1,0 +1,149 @@
+﻿@using WebAPIModule4_Client.Models.Product
+@model IEnumerable<WebAPIModule4_Client.Models.Product.Product>
+@{
+	ViewData["Title"] = "Product";
+	Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<div class="">
+
+	<!-- Page Heading -->
+	<div class="page-heading container-fluid text-right">
+		<h1 class="h3 mb-2 text-gray-800">Product List</h1>
+		<p class="mb-4">
+			DataTables is a third party plugin that is used to generate the demo table below.
+			For more information about DataTables, please visit the
+			<a target="_blank" href="https://datatables.net">official DataTables documentation</a>.
+		</p>
+	</div>
+	<!-- DataTales Example -->
+	<div class="container-fluid">
+
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">
+					<button type="button" onclick="location.href='@Url.Action("AddProduct", "Product")'">
+						Add Product
+					</button>
+				</h6>
+
+			</div>
+			<div class="card-body ">
+
+				<div class="table-responsive">
+					<!--data table-->
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Product Name</th>
+								<th>Brand Name</th>
+								<th>Price</th>
+								<th>Stock</th>
+								<th>Manufacturing Date</th>
+								<th>Expiry Date</th>
+								<th>Icon</th>
+								@*<th>Description</th>
+								<th>Filter</th>
+								<th>Status</th>*@
+								<th>Action</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							@if (Model != null)
+							{
+								foreach (var item in Model)
+								{
+									<tr>
+										<td>@item.ProductId</td>
+										<td>@item.ProductName</td>
+										<td>@item.BrandName</td>
+										<td>
+											<strong>
+												@string.Format("{0:N0}", @item.Price)
+												<span style="font-weight: normal">VND</span>
+											</strong>
+										</td>
+										<td>@item.Stock</td>
+										<td>@string.Format("{0:dd/MM/yyyy}",@item.ManufacturingDate)</td>
+										<td>@string.Format("{0:dd/MM/yyyy}",@item.ExpiryDate)</td>
+										<td><img src="@item.Icon" width="140" height="140"></td>
+										@*<td>@item.Description</td>
+										<td>@item.Filter</td>*@
+										@*<td class="text-center
+										@((bool)item.IsActive ? "text-success" : "text-danger")">
+											@((bool)item.IsActive ? "Active" : "Inactive")
+										</td>*@
+										<td class="text-center">
+											<div class='item-action'>
+												<button class='btn btn-info item-edit-btn'>
+													<a class="text-light" href="@Url.Action("EditProduct", "Product", new { productid = item.ProductId, isUpdate = false})">
+														Edit
+													</a>
+												</button>
+											</div>
+											<br>
+											@*<div>
+												@if ((bool)item.IsActive == true)
+												{
+													<button class='btn btn-danger'>
+														<a class="text-light" href="@Url.Action("Delete", "Product", new { productname = item.ProductName })">
+															Del
+														</a>
+													</button>
+												}
+												else
+												{
+													<button class='btn btn-danger' disabled>Del</button>
+												}
+											</div>*@
+										</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+					<!--end data table-->
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@*@if ((bool)item.IsActive == true)
+{
+    <div class='item-action'>
+        <button class='btn btn-info item-edit-btn'
+                data-id="@item.ProductId" data-name="@item.ProductName" *
+                                    <a href="@Url.Action("EditProduct", "Product", new { productid = item.ProductId, isUpdate = false})">Edit</a>
+                                    </button>
+        <button class='btn btn-danger'>
+
+            Del
+        </button>
+    </div>
+}
+else
+{
+    <span>Unavailable</span>
+}
+<script>
+    var editBtn = document.querySelector('.item-edit-btn')
+    editBtn.addEventListener('click', function (e) {
+        console.log(e)
+        var name = e.target.getAttribute('data-name')
+        var id = e.target.getAttribute('data-id')
+
+        console.log(name)
+        var alertStr = 'Edit item: ' + name + '?' + id
+        var isConfirmed = confirm(alertStr)
+        if (!isConfirmed) return
+        redirectEdit()
+
+    })
+    function redirectEdit() {
+        console.log('redirecting...')
+    }
+</script>*@

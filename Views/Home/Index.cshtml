@@ -1,15 +1,20 @@
-﻿
-@*@{
+﻿@using System.Collections
+@using System.Collections.Generic
+@using Newtonsoft.Json
+@using WebAPIModule4_Client.Models.Product
+@model IEnumerable<WebAPIModule4_Client.Models.Product.Product>
+
+@{
 	ViewData["Title"] = "Home Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-	Pager pager = new Pager();
-	int pageNo = 0;
-	if (ViewBag.Pager != null)
-	{
-		pager = ViewBag.Pager;
-		pageNo = pager.CurrentPage;
-	}
-}*@
+	//Pager pager = new Pager();
+	//int pageNo = 0;
+	//if (ViewBag.Pager != null)
+	//{
+	//	pager = ViewBag.Pager;
+	//	pageNo = pager.CurrentPage;
+			//}
+}
 
 <!-- Header-->
 <section class="section-index-banner">
@@ -17,7 +22,6 @@
 		<swiper-container class="mySwiper" navigation="true">
 			<swiper-slide><img src="https://www.icebergsupplements.com/wp-content/uploads/2021/05/bpi-slider.jpg" class="d-block w-100" alt="dsad"></swiper-slide>
 			<swiper-slide><img src="https://m.media-amazon.com/images/S/aplus-media/mg/c96a832f-a9cb-4fb9-ab36-6126ed69f8d5._SR970,300_.jpg" class="d-block w-100" alt="dasda"></swiper-slide>
-			<swiper-slide><img src="https://aaasupplements.com.au/wp-content/uploads/2016/05/Rule1-Isolate-Banner.png" class="d-block w-100" alt="sad"></swiper-slide>
 			<swiper-slide><img src="https://m.media-amazon.com/images/S/aplus-media-library-service-media/6101f15a-3439-48e0-8565-42efd59b79e2.__CR0,0,970,300_PT0_SX970_V1___.jpg" class="d-block w-100" alt="sasd"></swiper-slide>
 			<swiper-slide><img src="https://shop.oldschoollabs.com/cdn/shop/files/Classic-Creatine-pdp-banner-m_1024x.jpg?v=1686653383" class="d-block w-100" alt="sasad"></swiper-slide>
 		</swiper-container>
@@ -31,6 +35,7 @@
 				@if (Model != null)
 				{
 					int i = 0;
+					//var objectJson = JsonConvert.DeserializeObject<Product>(json);
 					foreach (var item in Model)
 					{
 						i++;
@@ -57,7 +62,7 @@
 										   class="btn btn-secondary btn-sm float-right">Add to cart</a>
 									</div>
 									<br>
-									<div class="text-center"><a class="btn btn-outline-dark mt-auto" href=" @Url.Action("GetProductDetail", "Home", new { pid = item.ProductId })">Detail</a></div>
+									<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="@Url.Action("GetProductDetail", "Home", new { id = item.ProductId })">Detail</a></div>
 								</div>
 							</div>
 						</div>
@@ -65,63 +70,62 @@
 				}
 			</li>
 		</ul>
+	</div>
 
-		<!--Page navigation-->
-		@*<div class="container">
-		<nav aria-label="Page navigation example">
-		<ul class="pagination justify-content-center">
-		@{
-		int position;
-		int pageCurrent = ViewBag.pageCurrent;
-		string txtSearch = ViewBag.txtSearch;
-		float numSize = ViewBag.numSize;
-		if (pageCurrent > 1)
-		{
-		<li class="page-item">
-		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = pageCurrent-1 })" tabindex="-1" aria-label="Previous">
-		<span aria-hidden="true">&laquo;</span>
-		</a>
-		</li>
-		}
+	<!--Page navigation-->
+	@*<div class="container">
+	<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+	@{
+	int position;
+	int pageCurrent = ViewBag.pageCurrent;
+	string txtSearch = ViewBag.txtSearch;
+	float numSize = ViewBag.numSize;
+	if (pageCurrent > 1)
+	{
+	<li class="page-item">
+	<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = pageCurrent-1 })" tabindex="-1" aria-label="Previous">
+	<span aria-hidden="true">&laquo;</span>
+	</a>
+	</li>
+	}
 
-		for (position = 1; position <= numSize; position++)
-		{
+	for (position = 1; position <= numSize; position++)
+	{
 
-		if (position == pageCurrent)
-		{
-		<li class="page-item active">
-		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = position })">
-		@position
-		</a>
-		</li>
-		}
-		else
-		{
-		<li class="page-item">
-		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = position })">
-		@position
-		</a>
-		</li>
-		}
+	if (position == pageCurrent)
+	{
+	<li class="page-item active">
+	<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = position })">
+	@position
+	</a>
+	</li>
+	}
+	else
+	{
+	<li class="page-item">
+	<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = position })">
+	@position
+	</a>
+	</li>
+	}
 
-		}
+	}
 
-		if (pageCurrent > 0 && pageCurrent < numSize)
-		{
-		<li class="page-item">
-		<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = pageCurrent+1 })" tabindex="-1" aria-label="Next">
-		<span aria-hidden="true">&raquo;</span>
-		</a>
-		</li>
-		}
-		}
+	if (pageCurrent > 0 && pageCurrent < numSize)
+	{
+	<li class="page-item">
+	<a class="page-link" href="@Url.Action("Index", "Home", new { txtSearch = (txtSearch != "" ? txtSearch : null), page = pageCurrent+1 })" tabindex="-1" aria-label="Next">
+	<span aria-hidden="true">&raquo;</span>
+	</a>
+	</li>
+	}
+	}
 
-
-		</ul>
-		</nav>
-		</div>*@
+	</ul>
+	</nav>
+	</div>*@
 </section>
-</div>
 
 @*<div class="container">
 	@if (pager.TotalPages > 0)
