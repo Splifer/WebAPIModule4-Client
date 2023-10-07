@@ -21,43 +21,59 @@ namespace WebAPIModule4_Client.Controllers
             _logger = logger;
 		}
 
-		public async Task<IActionResult> Index()
-		{
-			List<Product> productList = new List<Product>();
-			using (var httpClient = new HttpClient())
-			{
-				using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-danh-sach-san-pham"))
-				{
-					string apiResponse = await response.Content.ReadAsStringAsync();
-					productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
-				}
-			}
-			return View(productList);
-		}
-
 		//public async Task<IActionResult> Index()
 		//{
-		//	var items = await GetHomeProductList();
-		//	return View(items);
-		//}
-
-		//private async Task<Product> GetHomeProductList()
-		//{
-		//	string baseUrl = "http://localhost:5179/api/Product/lay-danh-sach-san-pham";
-
+		//	List<Product> productList = new List<Product>();
 		//	using (var httpClient = new HttpClient())
 		//	{
-
-		//		HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
-		//		if (response.IsSuccessStatusCode)
+		//		using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-danh-sach-san-pham"))
 		//		{
-		//			Product productlist = new Product();
-		//			productlist = response.Content.ReadAsAsync<Product>().Result;
-		//			return productlist;
+		//			string apiResponse = await response.Content.ReadAsStringAsync();
+		//			productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
 		//		}
-		//		return null;
 		//	}
+		//	return View(productList);
 		//}
+
+		public async Task<IActionResult> Index()
+		{
+			var items = await GetHomeProductList();
+			return View(items);
+		}
+
+		//Chỗ này phải convert về kiểu List<> vì bên API mình đang dùng kiểu List<>
+		//nhưng bên client thì Product này chỉ là một đối tượng, nên sẽ bị lỗi
+		private async Task<List<Product>> GetHomeProductList()
+		{
+			string baseUrl = "http://localhost:5179/api/Product/lay-danh-sach-san-pham";
+
+			using (var httpClient = new HttpClient())
+			{
+				HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
+				if (response.IsSuccessStatusCode)
+				{
+					List<Product> productlist = new List<Product>();
+					productlist = response.Content.ReadAsAsync<List<Product>>().Result;
+					return productlist;
+				}
+				return null;
+			}
+		}
+
+		public async Task<IActionResult> GetProductDetail(string id)
+		{
+			string baseUrl = "http://localhost:5179/api/Product/lay-san-pham-chi-dinh/" + id;
+			using (var httpClient = new HttpClient())
+			{
+				HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
+				if (response.IsSuccessStatusCode)
+				{
+					var items = response.Content.ReadAsAsync<Product>().Result;
+					return View(items);
+				}
+			}
+			return View();
+		}
 
 		//[HttpGet("{id}")]
 		//public ActionResult<Product> Get(int id)
@@ -69,28 +85,28 @@ namespace WebAPIModule4_Client.Controllers
 
 		//public ViewResult GetProductDetail() => View();
 
-		[HttpGet]
-		public IActionResult GetPRoductDetail() => View();
+		//[HttpGet]
+		//public IActionResult GetPRoductDetail() => View();
 
-		[HttpPost]
-		public async Task<IActionResult> GetProductDetail(int id)
-		{
-			Product product = new Product();
-			using (var httpClient = new HttpClient())
-			{
-				using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-san-pham-chi-dinh/" + id))
-				{
-					if (response.StatusCode == System.Net.HttpStatusCode.OK)
-					{
-						string apiResponse = await response.Content.ReadAsStringAsync();
-						product = JsonConvert.DeserializeObject<Product>(apiResponse);
-					}
-					else
-						ViewBag.StatusCode = response.StatusCode;
-				}
-			}
-			return View(product);
-		}
+		//[HttpPost]
+		//public async Task<IActionResult> GetProductDetail(int id)
+		//{
+		//	Product product = new Product();
+		//	using (var httpClient = new HttpClient())
+		//	{
+		//		using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-san-pham-chi-dinh/" + id))
+		//		{
+		//			if (response.StatusCode == System.Net.HttpStatusCode.OK)
+		//			{
+		//				string apiResponse = await response.Content.ReadAsStringAsync();
+		//				product = JsonConvert.DeserializeObject<Product>(apiResponse);
+		//			}
+		//			else
+		//				ViewBag.StatusCode = response.StatusCode;
+		//		}
+		//	}
+		//	return View(product);
+		//}
 
 		public IActionResult Privacy()
         {

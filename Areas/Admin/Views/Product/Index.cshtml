@@ -1,8 +1,7 @@
-﻿
-@model IEnumerable<WebAPIModule4_Client.Models.Product.Product>
+﻿@model IEnumerable<WebAPIModule4_Client.Models.Product.Product>
 @{
-	ViewData["Title"] = "Product";
-	Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
 <div class="">
@@ -70,11 +69,11 @@
 										<td>@string.Format("{0:dd/MM/yyyy}",@item.ExpiryDate)</td>
 										@* <td><img src="@item.Icon" width="140" height="140"></td> *@
 										@*<td>@item.Description</td>
-										<td>@item.Filter</td>*@
+								<td>@item.Filter</td>*@
 										@*<td class="text-center
-										@((bool)item.IsActive ? "text-success" : "text-danger")">
-											@((bool)item.IsActive ? "Active" : "Inactive")
-										</td>*@
+								@((bool)item.IsActive ? "text-success" : "text-danger")">
+								@((bool)item.IsActive ? "Active" : "Inactive")
+								</td>*@
 										<td class="text-center">
 											<div class='item-action'>
 												<button class='btn btn-info item-edit-btn'>
@@ -85,19 +84,19 @@
 											</div>
 											<br>
 											@*<div>
-												@if ((bool)item.IsActive == true)
-												{
-													<button class='btn btn-danger'>
-														<a class="text-light" href="@Url.Action("Delete", "Product", new { productname = item.ProductName })">
-															Del
-														</a>
-													</button>
-												}
-												else
-												{
-													<button class='btn btn-danger' disabled>Del</button>
-												}
-											</div>*@
+									@if ((bool)item.IsActive == true)
+									{
+									<button class='btn btn-danger'>
+									<a class="text-light" href="@Url.Action("Delete", "Product", new { productname = item.ProductName })">
+									Del
+									</a>
+									</button>
+									}
+									else
+									{
+									<button class='btn btn-danger' disabled>Del</button>
+									}
+									</div>*@
 										</td>
 									</tr>
 								}
@@ -147,3 +146,4 @@ else
         console.log('redirecting...')
     }
 </script>*@
+

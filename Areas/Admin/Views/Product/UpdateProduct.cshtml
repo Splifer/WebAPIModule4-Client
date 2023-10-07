@@ -31,14 +31,14 @@
                 <input type="text" class="form-control" id="stock" name="stock" min="0" value="@Model.Stock" aria-describedby="text">
             </div>*@
 
-            @if (string.IsNullOrEmpty(@Model.Icon) == false)
+            @* @if (string.IsNullOrEmpty(@Model.Icon) == false)
             {
                 <div class="mb-4">
                     <label for="icon" class="form-label fw-bolder">Icon</label>
                     <img src="@Model.Icon" width="140" height="140" />
                     <input type="file" class="form-control" id="icon" name="icon" value="@Model.Icon" aria-describedby="text">
                 </div>
-            }
+            } *@
 
             @*<div class="mb-4">
             <label for="icon" class="form-label fw-bolder">Icon</label>

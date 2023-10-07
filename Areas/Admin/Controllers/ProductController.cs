@@ -6,7 +6,7 @@ using WebAPIModule4_Client.Models.Product;
 namespace WebAPIModule4_Client.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Route("Product")]
+	[Route("admin/product")]
 	public class ProductController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -19,7 +19,23 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 			_logger = logger;
 		}
 
-		public async Task<IActionResult> Product()
+		//[Route("danh-sach")]
+		//public async Task<IActionResult> Product()
+		//{
+		//	List<Product> productList = new List<Product>();
+		//	using (var httpClient = new HttpClient())
+		//	{
+		//		using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-danh-sach-san-pham"))
+		//		{
+		//			string apiResponse = await response.Content.ReadAsStringAsync();
+		//			productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+		//		}
+		//	}
+		//	return View(productList);
+		//}
+
+		[Route("list-product")]
+		public async Task<IActionResult> Index()
 		{
 			List<Product> productList = new List<Product>();
 			using (var httpClient = new HttpClient())
@@ -32,6 +48,7 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 			}
 			return View(productList);
 		}
+
 
 		public async Task<IActionResult> UpdateProduct(int id)
 		{
@@ -57,7 +74,7 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 				content.Add(new StringContent(product.ProductId.ToString()), "Id");
 				content.Add(new StringContent(product.ProductName), "Name");
 				content.Add(new StringContent(product.Price.ToString()), "StartLocation");
-				content.Add(new StringContent(product.Icon), "EndLocation");
+				//content.Add(new StringContent(product.Icon), "EndLocation");
 
 				using (var response = await httpClient.PutAsync("http://localhost:5179/api/Account/cap-nhat-tai-khoan/", content))
 				{
