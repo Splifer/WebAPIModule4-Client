@@ -1,0 +1,72 @@
+﻿@model WebAPIModule4_Client.Models.Product.OutputProduct
+
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="col-6 px-5 pt-5 border rounded-3 shadow-lg">
+        <h2 class="text-center fw-bold pb-4">Add Product</h2>
+        <hr />
+        <form action="~/Product/AddProduct" method="post">
+            @*<input asp-for="ProductId" type="text" class="form-control" id="productid" value="@Model.ProductId" aria-describedby="text" hidden>*@
+            @*<div class="mb-4">
+                <label asp-for="ProductId" class="form-label fw-bolder">Product ID</label>
+                <input asp-for="ProductId" type="text" class="form-control" id="productid" value="" aria-describedby="text">
+            </div>*@
+            <div class="mb-4">
+                <label asp-for="ProductName" class="form-label fw-bolder">Product Name</label>
+                <input asp-for="ProductName" type="text" class="form-control" id="productname" value="" aria-describedby="text">
+            </div>
+            @*<div class="mb-4">
+                <label asp-for="BrandName" class="form-label fw-bolder">Brand Name</label>
+                <input asp-for="BrandName" type="text" class="form-control" id="brandname" value="" aria-describedby="text">
+
+            </div>*@
+            <div class="mb-4">
+                <label asp-for="Price" class="form-label fw-bolder">Price</label>
+                <input asp-for="Price" type="number" class="form-control" id="price" value="" aria-describedby="text">
+            </div>
+            @*<div class="mb-4">
+                <label asp-for="Stock" class="form-label fw-bolder">Stock</label>
+                <input asp-for="Stock" type="number" class="form-control" id="stock" min="" value="" aria-describedby="text">
+            </div>*@
+            @*<div class="mb-4">
+                <label asp-for="ManufacturingDate" class="form-label fw-bolder">Manufacturing Date</label>
+                <input asp-for="ManufacturingDate" type="date" class="form-control" id="manudate" value="" aria-describedby="text">
+            </div>
+            <div class="mb-4">
+                <label asp-for="ExpiryDate" class="form-label fw-bolder">ExpiryDate</label>
+                <input asp-for="ExpiryDate" type="date" class="form-control" id="expdate" value="" aria-describedby="text">
+            </div>*@
+            @*<div class="mb-4">
+            <label asp-for="" class="form-label fw-bolder">Payment ID</label>
+            <input type="text" class="form-control" id="paymentid" name="paymentid" value="@Model.PaymentId" aria-describedby="text">
+            </div>*@
+            @*<div class="mb-4">
+            <label for="shippingid" class="form-label fw-bolder">Shipping ID</label>
+            <input type="text" class="form-control" id="shippingid" name="shippingid" value="@Model.ShippingId" aria-describedby="text">
+            </div>*@
+            <div class="mb-4">
+                <label asp-for="Icons" class="form-label fw-bolder">Icon</label>
+                <input asp-for="Icons" type="file" class="form-control" id="icon" value="" aria-describedby="text">
+            </div>
+            @*<div class="mb-4">
+                <label asp-for="Description" class="form-label fw-bolder">Description</label>
+                <input asp-for="Description" type="text" class="form-control" id="description" value="" aria-describedby="text">
+            </div>*@
+            @*<div class="form-check">
+                <input asp-for="IsActive" class="form-check-input" type="checkbox" id="IsActive">
+                <label asp-for="IsActive" class="form-check-label">
+                    IsActive
+                </label>
+            </div>*@
+            <hr />
+            <div class="d-flex align-items-center justify-content-center my-5 gap-5">
+                <button type="submit" id="product" class="btn btn-primary px-4 py-2">Add Product</button>
+            </div>
+        </form>
+    </div>
+</div>
+

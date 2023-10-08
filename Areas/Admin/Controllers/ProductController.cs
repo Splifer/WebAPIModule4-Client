@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 using WebAPIModule4_Client.Controllers;
 using WebAPIModule4_Client.Models.Product;
 
@@ -81,6 +82,27 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 				}
 				return null;
 			}
+		}
+
+		[Route("create-product")]
+		public IActionResult AddProduct() => View();
+
+		[HttpPost]
+		public async Task<IActionResult> AddProduct(OutputProduct input)
+		{
+			string baseUrl = "http://localhost:5179/api/Product/tao-san-pham";
+			OutputProduct outputProduct = new OutputProduct();
+			using (var httpClient = new HttpClient())
+			{
+				StringContent content = new StringContent(JsonConvert.SerializeObject(outputProduct), Encoding.UTF8, "application/json");
+
+				using (var response = await httpClient.PostAsync(baseUrl, content))
+				{
+					string apiResponse = await response.Content.ReadAsStringAsync();
+					outputProduct = JsonConvert.DeserializeObject<OutputProduct>(apiResponse);
+				}
+			}
+			return RedirectToAction("Index");
 		}
 
 		[Route("update-product")]
