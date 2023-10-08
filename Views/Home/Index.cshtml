@@ -2,7 +2,7 @@
 @using System.Collections.Generic
 @using Newtonsoft.Json
 @using WebAPIModule4_Client.Models.Product
-@model IEnumerable<WebAPIModule4_Client.Models.Product.Product>
+@model IEnumerable<WebAPIModule4_Client.Models.Product.OutputProduct>
 
 @{
 	ViewData["Title"] = "Home Page";
@@ -44,11 +44,7 @@
 								<!-- Sale badge-->
 								<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
 								<!-- Product image-->
-								@{
-									var temp = JsonConvert.DeserializeObject<InputIcon>(item.Icons.Replace("\\",""));
-									Console.WriteLine(temp);
-									// <img class="card-img-top" src="" alt="..." />
-								}
+								<img class="card-img-top" src="@item.Icons[0].Url" alt="..." />
 								<!-- Product details-->
 								<div class="card-body p-4">
 									<div class="text-center">

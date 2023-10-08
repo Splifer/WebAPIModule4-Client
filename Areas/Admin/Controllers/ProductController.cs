@@ -34,22 +34,56 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 		//	return View(productList);
 		//}
 
+		//[Route("list-product")]
+		//public async Task<IActionResult> Index()
+		//{
+		//	List<Product> productList = new List<Product>();
+		//	using (var httpClient = new HttpClient())
+		//	{
+		//		using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-danh-sach-san-pham"))
+		//		{
+		//			string apiResponse = await response.Content.ReadAsStringAsync();
+		//			productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+		//		}
+		//	}
+		//	return View(productList);
+		//}
+
 		[Route("list-product")]
 		public async Task<IActionResult> Index()
 		{
-			List<Product> productList = new List<Product>();
-			using (var httpClient = new HttpClient())
-			{
-				using (var response = await httpClient.GetAsync("http://localhost:5179/api/Product/lay-danh-sach-san-pham"))
-				{
-					string apiResponse = await response.Content.ReadAsStringAsync();
-					productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
-				}
-			}
-			return View(productList);
+			var items = await ProductList();
+			return View(items);
 		}
 
+		private async Task<List<OutputProduct>> ProductList()
+		{
+			string baseUrl = "http://localhost:5179/api/Product/lay-danh-sach-san-pham";
 
+			using (var httpClient = new HttpClient())
+			{
+				HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
+				if (response.IsSuccessStatusCode)
+				{
+					List<Product> productlist = new List<Product>(); //lop ao~ hung du~ lieu tu API
+					List<OutputProduct> output = new List<OutputProduct>(); //lop xu ly du~ lieu khi goi API thanh cong
+					productlist = response.Content.ReadAsAsync<List<Product>>().Result;
+					foreach (var item in productlist)
+					{
+						OutputProduct outputproduct = new OutputProduct();
+						outputproduct.ProductId = item.ProductId;
+						outputproduct.ProductName = item.ProductName;
+						outputproduct.Price = item.Price;
+						outputproduct.Icons = JsonConvert.DeserializeObject<List<InputIcon>>(item.Icons);
+						output.Add(outputproduct);
+					}
+					return output;
+				}
+				return null;
+			}
+		}
+
+		[Route("update-product")]
 		public async Task<IActionResult> UpdateProduct(int id)
 		{
 			Product product = new Product();
@@ -73,8 +107,8 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 				var content = new MultipartFormDataContent();
 				content.Add(new StringContent(product.ProductId.ToString()), "Id");
 				content.Add(new StringContent(product.ProductName), "Name");
-				content.Add(new StringContent(product.Price.ToString()), "StartLocation");
-				//content.Add(new StringContent(product.Icon), "EndLocation");
+				content.Add(new StringContent(product.Price.ToString()), "Price");
+				content.Add(new StringContent(product.Icons), "Icon");
 
 				using (var response = await httpClient.PutAsync("http://localhost:5179/api/Account/cap-nhat-tai-khoan/", content))
 				{

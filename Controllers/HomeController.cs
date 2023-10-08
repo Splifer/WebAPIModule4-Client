@@ -43,7 +43,7 @@ namespace WebAPIModule4_Client.Controllers
 
 		//Chỗ này phải convert về kiểu List<> vì bên API mình đang dùng kiểu List<>
 		//nhưng bên client thì Product này chỉ là một đối tượng, nên sẽ bị lỗi
-		private async Task<List<Product>> GetHomeProductList()
+		private async Task<List<OutputProduct>> GetHomeProductList()
 		{
 			string baseUrl = "http://localhost:5179/api/Product/lay-danh-sach-san-pham";
 
@@ -52,9 +52,20 @@ namespace WebAPIModule4_Client.Controllers
 				HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
 				if (response.IsSuccessStatusCode)
 				{
-					List<Product> productlist = new List<Product>();
+					List<Product> productlist = new List<Product>(); //lop ao~ hung du~ lieu tu API
+					List<OutputProduct> output = new List<OutputProduct>(); //lop xu ly du~ lieu khi goi API thanh cong
 					productlist = response.Content.ReadAsAsync<List<Product>>().Result;
-					return productlist;
+					foreach(var item in productlist)
+					{
+						OutputProduct outputproduct = new OutputProduct();
+						outputproduct.ProductId = item.ProductId;
+						outputproduct.ProductName = item.ProductName;
+						outputproduct.Price = item.Price;
+						outputproduct.Icons = JsonConvert.DeserializeObject<List<InputIcon>>(item.Icons);
+
+						output.Add(outputproduct);
+					}
+					return output;
 				}
 				return null;
 			}

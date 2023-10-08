@@ -1,0 +1,8 @@
+@* if(item.Icons != null)
+{
+				foreach(var icon in item.Icons)
+				{
+								@* <img class="card-img-top" src="@item.Icons[0].Url" alt="..." /> *@ //xu ly cho 1 hinh
+								@* <img class="card-img-top" src="@icon.Url" alt="..." /> *@ //xu ly cho nhieu hinh
+				}
+}
