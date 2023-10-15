@@ -87,7 +87,8 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 		[Route("create-product")]
 		public IActionResult AddProduct() => View();
 
-		[HttpPost]
+        [Route("create-product")]
+        [HttpPost]
 		public async Task<IActionResult> AddProduct(OutputProduct input)
 		{
 			string baseUrl = "http://localhost:5179/api/Product/tao-san-pham";
@@ -102,7 +103,7 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 					outputProduct = JsonConvert.DeserializeObject<OutputProduct>(apiResponse);
 				}
 			}
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Product", new {Areas="Admin"});
 		}
 
 		[Route("update-product")]

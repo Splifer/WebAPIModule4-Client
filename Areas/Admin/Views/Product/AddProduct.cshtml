@@ -9,7 +9,7 @@
     <div class="col-6 px-5 pt-5 border rounded-3 shadow-lg">
         <h2 class="text-center fw-bold pb-4">Add Product</h2>
         <hr />
-        <form action="~/Product/AddProduct" method="post">
+        <form action="/admin/product/create-product" enctype="multipart/form-data" method="post">
             @*<input asp-for="ProductId" type="text" class="form-control" id="productid" value="@Model.ProductId" aria-describedby="text" hidden>*@
             @*<div class="mb-4">
                 <label asp-for="ProductId" class="form-label fw-bolder">Product ID</label>
