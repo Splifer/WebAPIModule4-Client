@@ -46,45 +46,43 @@ namespace WebAPIModule4_Client.Controllers
 		private async Task<List<OutputProduct>> GetHomeProductList()
 		{
 			string baseUrl = "http://localhost:5179/api/Product/lay-danh-sach-san-pham";
-
 			using (var httpClient = new HttpClient())
 			{
 				HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
 				if (response.IsSuccessStatusCode)
 				{
-					List<Product> productlist = new List<Product>(); //lop ao~ hung du~ lieu tu API
-					List<OutputProduct> output = new List<OutputProduct>(); //lop xu ly du~ lieu khi goi API thanh cong
-					productlist = response.Content.ReadAsAsync<List<Product>>().Result;
+					var outputList = new List<OutputProduct>();
+					var productlist = response.Content.ReadAsAsync<List<Product>>().Result;
 					foreach(var item in productlist)
 					{
-						OutputProduct outputproduct = new OutputProduct();
+						var outputproduct = new OutputProduct();
 						outputproduct.ProductId = item.ProductId;
 						outputproduct.ProductName = item.ProductName;
 						outputproduct.Price = item.Price;
-						outputproduct.Icons = JsonConvert.DeserializeObject<List<InputIcon>>(item.Icons);
+						outputproduct.Icons = item.Icons ?? string.Empty;
+						outputList.Add(outputproduct);
 
-						output.Add(outputproduct);
-					}
-					return output;
-				}
-				return null;
+                    }
+					return outputList;
+                }
+                return null;
 			}
 		}
 
-		public async Task<IActionResult> GetProductDetail(string id)
-		{
-			string baseUrl = "http://localhost:5179/api/Product/lay-san-pham-chi-dinh/" + id;
-			using (var httpClient = new HttpClient())
-			{
-				HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
-				if (response.IsSuccessStatusCode)
-				{
-					var items = response.Content.ReadAsAsync<Product>().Result;
-					return View(items);
-				}
-			}
-			return View();
-		}
+		//public async Task<List<IActionResult>> GetProductDetail(string id)
+		//{
+		//	string baseUrl = "http://localhost:5179/api/Product/lay-san-pham-chi-dinh/" + id;
+		//	using (var httpClient = new HttpClient())
+		//	{
+		//		HttpResponseMessage response = await httpClient.GetAsync(baseUrl);
+		//		if (response.IsSuccessStatusCode)
+		//		{
+		//			var items = response.Content.ReadAsAsync<Product>().Result;
+		//			return View(items);
+		//		}
+		//	}
+		//	return View();
+		//}
 
 		//[HttpGet("{id}")]
 		//public ActionResult<Product> Get(int id)

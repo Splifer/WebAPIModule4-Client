@@ -75,7 +75,7 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 						outputproduct.ProductId = item.ProductId;
 						outputproduct.ProductName = item.ProductName;
 						outputproduct.Price = item.Price;
-						outputproduct.Icons = JsonConvert.DeserializeObject<List<InputIcon>>(item.Icons);
+						outputproduct.Icons = item.Icons;
 						output.Add(outputproduct);
 					}
 					return output;
@@ -93,9 +93,11 @@ namespace WebAPIModule4_Client.Areas.Admin.Controllers
 		{
 			string baseUrl = "http://localhost:5179/api/Product/tao-san-pham";
 			OutputProduct outputProduct = new OutputProduct();
+			input.Icons= string.Empty;
 			using (var httpClient = new HttpClient())
 			{
-				StringContent content = new StringContent(JsonConvert.SerializeObject(outputProduct), Encoding.UTF8, "application/json");
+				StringContent content = new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json");
+				var a = JsonConvert.SerializeObject(input);
 
 				using (var response = await httpClient.PostAsync(baseUrl, content))
 				{

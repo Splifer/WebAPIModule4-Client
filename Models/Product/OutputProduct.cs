@@ -22,7 +22,7 @@ namespace WebAPIModule4_Client.Models.Product
 
 		public DateTime? ExpiryDate { get; set; }
 
-		public List<InputIcon> Icons { get; set; }
+		public string Icons { get; set; }
 
 		public string? Description { get; set; }
 
